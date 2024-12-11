@@ -3,5 +3,7 @@ Try to get the dice to match and you win the game!
 
 
 To run: 
+
    npm install
+
    npm run dev
