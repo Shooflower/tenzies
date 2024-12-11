@@ -12,6 +12,8 @@ function App() {
 
   const {height, width} = useWindowSize()
 
+  const [tries, setTries] = useState(0)
+
   type Die = {
     value: number,
     isHeld: boolean,
@@ -32,6 +34,8 @@ function App() {
     setDice(prevDice => {
       return prevDice.map(die => die.isHeld ? die : {...die, value: Math.floor((Math.random() * 6) + 1)})
     })
+
+    setTries(prevTries => prevTries + 1)
   }
 
   function handleHold(id: string) {
@@ -42,6 +46,7 @@ function App() {
 
   function newGame() {
     setDice(generateNewDice())
+    setTries(0)
   }
 
   const diceElts = dice.map(die => <Die value={die.value} isHeld={die.isHeld} handleHold={handleHold} id={die.id} key={die.id} />)
@@ -51,11 +56,12 @@ function App() {
       {gameWon && <Confetti height={height} width={width} />}
       <div className="game-slate">
         <h2 className="title">Tenzies</h2>
-        <p className="instructions">Click the dice to hold at a specific number and continue rolling until all dice match!</p>
+        <p className="body-text">Click the dice to hold at a specific number and continue rolling until all dice match!</p>
         <div className="dice-container">
           {diceElts}
         </div>
         <button onClick={gameWon ? newGame : rollDice} className="roll-btn">{gameWon ? "New Game" : "Roll"}</button>
+        <h3 className="body-text">Tries: {tries}</h3>
       </div>
     </main>
   )
